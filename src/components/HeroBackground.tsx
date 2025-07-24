@@ -6,7 +6,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import { useRef, useState } from 'react';
 
-function Stars(props: any) {
+function Stars(props: JSX.IntrinsicElements['points']) {
     const ref = useRef<THREE.Points>(null!);
     const [sphere] = useState(() => {
         const positions = new Float32Array(5000 * 3);

@@ -7,10 +7,10 @@ import Link from "next/link";
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-// Sub-competition card එක
+// Sub-competition card component (remains the same)
 const SubCompetitionCard = ({ name, description }: { name: string, description: string }) => {
     return (
-        <div className="subcomp-card border border-purple-800/40 bg-gray-900/40 p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
+        <div className="subcomp-card border border-purple-800/40 bg-gray-900/40 p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60 flex flex-col">
             <h3 className="text-2xl font-bold text-purple-300 mb-4">{name}</h3>
             <p className="font-sans text-gray-400 mb-6 flex-grow">{description}</p>
             <div className="flex flex-col sm:flex-row gap-4 mt-auto">
@@ -22,7 +22,12 @@ const SubCompetitionCard = ({ name, description }: { name: string, description: 
     );
 };
 
-export default function CompetitionPage({ params }: { params: { slug: string } }) {
+type Props = {
+    params: { slug: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default function CompetitionPage({ params }: Props) {
     const competition = competitionsData.find(c => c.slug === params.slug);
     const compRef = useRef(null);
 
@@ -30,7 +35,7 @@ export default function CompetitionPage({ params }: { params: { slug: string } }
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({delay: 0.2});
             tl.from(".comp-hero-logo", { scale: 0.5, opacity: 0, duration: 1, ease: 'power3.out' })
-              .from(".subcomp-card", { y: 50, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }, "-=0.7");
+              .from(".subcomp-card, .no-subcomp-content", { y: 50, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }, "-=0.7");
         }, compRef);
         return () => ctx.revert();
     }, []);
@@ -49,7 +54,7 @@ export default function CompetitionPage({ params }: { params: { slug: string } }
                         <Image src={competition.logoSrc} alt={`${competition.title} logo`} layout="fill" objectFit="contain" />
                     </div>
                 </div>
-                
+
                 {/* Sub-competitions Grid */}
                 {competition.subCompetitions.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -58,9 +63,19 @@ export default function CompetitionPage({ params }: { params: { slug: string } }
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center text-gray-400 font-sans py-16">
-                        <p className="text-2xl mb-4">More details coming soon!</p>
-                        <p>Stay tuned for updates on sub-competition categories.</p>
+                    <div className="no-subcomp-content text-center text-gray-400 font-sans py-16">
+                        {/* THIS IS THE FIX: Conditional rendering for special cases */}
+                        {competition.slug === 'most-popular' ? (
+                            <div className="flex justify-center flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                                <button className="flex-1 px-4 py-3 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>R & R</button>
+                                <button className="flex-1 px-4 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300" data-cursor-hover>Live Leaderboard</button>
+                            </div>
+                        ) : (
+                             <>
+                                <p className="text-2xl mb-4">More details coming soon!</p>
+                                <p>Stay tuned for updates on sub-competition categories.</p>
+                             </>
+                        )}
                     </div>
                 )}
 

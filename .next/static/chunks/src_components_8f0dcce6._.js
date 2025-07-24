@@ -317,37 +317,39 @@ const SmoothScroll = ()=>{
                 smoothWheel: true
             });
             lenis.on('scroll', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$ScrollTrigger$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ScrollTrigger"].update);
-            const raf = {
-                "SmoothScroll.useEffect.raf": (time)=>{
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-            }["SmoothScroll.useEffect.raf"];
+            // THIS IS THE FIX: The redundant requestAnimationFrame loop has been removed.
+            // GSAP's ticker is the correct way to handle this when using ScrollTrigger.
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].ticker.add({
                 "SmoothScroll.useEffect": (time)=>{
                     lenis.raf(time * 1000);
                 }
             }["SmoothScroll.useEffect"]);
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].ticker.lagSmoothing(0);
-            requestAnimationFrame(raf);
-            // Navbar links සඳහා
+            // Navbar links සඳහා smooth scroll
             const anchorLinks = document.querySelectorAll('a[href^="#"]');
+            const handleClick = {
+                "SmoothScroll.useEffect.handleClick": (e)=>{
+                    e.preventDefault();
+                    const targetId = e.currentTarget.getAttribute('href');
+                    if (targetId) {
+                        lenis.scrollTo(targetId);
+                    }
+                }
+            }["SmoothScroll.useEffect.handleClick"];
             anchorLinks.forEach({
                 "SmoothScroll.useEffect": (link)=>{
-                    link.addEventListener('click', {
-                        "SmoothScroll.useEffect": (e)=>{
-                            e.preventDefault();
-                            const targetId = link.getAttribute('href');
-                            if (targetId) {
-                                lenis.scrollTo(targetId);
-                            }
-                        }
-                    }["SmoothScroll.useEffect"]);
+                    link.addEventListener('click', handleClick);
                 }
             }["SmoothScroll.useEffect"]);
+            // Cleanup function
             return ({
                 "SmoothScroll.useEffect": ()=>{
                     lenis.destroy();
+                    anchorLinks.forEach({
+                        "SmoothScroll.useEffect": (link)=>{
+                            link.removeEventListener('click', handleClick);
+                        }
+                    }["SmoothScroll.useEffect"]);
                 }
             })["SmoothScroll.useEffect"];
         }

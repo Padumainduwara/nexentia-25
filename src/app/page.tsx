@@ -75,7 +75,7 @@ export default function Home() {
       <>
         <main id="welcome" className="relative flex flex-col items-center justify-center w-full h-screen bg-black overflow-hidden z-10">
           <div ref={heroBgRef} className="absolute top-0 left-0 w-full h-full z-0">
-              <Image src="/hero-background.jpg" alt="Futuristic cyberpunk background" layout="fill" objectFit="cover" className="opacity-40" />
+              <Image src="/hero-background.png" alt="Futuristic cyberpunk background" layout="fill" objectFit="cover" className="opacity-40" />
           </div>
           <HeroBackground />
           <div className="relative z-10 flex flex-col items-center text-center text-white p-5">
@@ -86,8 +86,8 @@ export default function Home() {
                   FIRST EVER MINISTRY OF EDUCATION REGOGNIZED ICT DAY IN SRI LANKA
               </h1>
               <p id="hero-p" className="text-base sm:text-lg md:text-xl font-light mb-10 text-gray-300 font-sans">
-                  BY ST. JOSEPH'S GIRLS' SCHOOL
-              </p>
+    BY ST. JOSEPH&apos;S GIRLS&apos; SCHOOL
+</p>
               <div className="flex flex-col sm:flex-row gap-8">
                   <div className="hero-btn">
                       <a href="YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener noreferrer">

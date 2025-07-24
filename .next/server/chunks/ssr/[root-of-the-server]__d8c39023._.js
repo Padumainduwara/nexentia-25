@@ -306,28 +306,30 @@ const SmoothScroll = ()=>{
             smoothWheel: true
         });
         lenis.on('scroll', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$ScrollTrigger$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ScrollTrigger"].update);
-        const raf = (time)=>{
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        };
+        // THIS IS THE FIX: The redundant requestAnimationFrame loop has been removed.
+        // GSAP's ticker is the correct way to handle this when using ScrollTrigger.
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].ticker.add((time)=>{
             lenis.raf(time * 1000);
         });
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].ticker.lagSmoothing(0);
-        requestAnimationFrame(raf);
-        // Navbar links සඳහා
+        // Navbar links සඳහා smooth scroll
         const anchorLinks = document.querySelectorAll('a[href^="#"]');
+        const handleClick = (e)=>{
+            e.preventDefault();
+            const targetId = e.currentTarget.getAttribute('href');
+            if (targetId) {
+                lenis.scrollTo(targetId);
+            }
+        };
         anchorLinks.forEach((link)=>{
-            link.addEventListener('click', (e)=>{
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                if (targetId) {
-                    lenis.scrollTo(targetId);
-                }
-            });
+            link.addEventListener('click', handleClick);
         });
+        // Cleanup function
         return ()=>{
             lenis.destroy();
+            anchorLinks.forEach((link)=>{
+                link.removeEventListener('click', handleClick);
+            });
         };
     }, [
         pathname

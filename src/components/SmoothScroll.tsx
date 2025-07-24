@@ -11,39 +11,41 @@ const SmoothScroll = () => {
 
     useEffect(() => {
         const lenis = new Lenis({
-            lerp: 0.1, // Smoothness (lower is smoother)
+            lerp: 0.1,
             smoothWheel: true,
         });
 
         lenis.on('scroll', ScrollTrigger.update);
-
-        const raf = (time: number) => {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        };
         
-        gsap.ticker.add((time)=>{
+        // THIS IS THE FIX: The redundant requestAnimationFrame loop has been removed.
+        // GSAP's ticker is the correct way to handle this when using ScrollTrigger.
+        gsap.ticker.add((time) => {
           lenis.raf(time * 1000)
-        })
-
-        gsap.ticker.lagSmoothing(0)
-
-        requestAnimationFrame(raf);
-        
-        // Navbar links සඳහා
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
-        anchorLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                if(targetId) {
-                    lenis.scrollTo(targetId);
-                }
-            });
         });
 
+        gsap.ticker.lagSmoothing(0);
+        
+        // Navbar links සඳහා smooth scroll
+        const anchorLinks = document.querySelectorAll('a[href^="#"]');
+        
+        const handleClick = (e: Event) => {
+            e.preventDefault();
+            const targetId = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+            if (targetId) {
+                lenis.scrollTo(targetId);
+            }
+        };
+
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', handleClick);
+        });
+
+        // Cleanup function
         return () => {
             lenis.destroy();
+            anchorLinks.forEach(link => {
+                link.removeEventListener('click', handleClick);
+            });
         };
 
     }, [pathname]);

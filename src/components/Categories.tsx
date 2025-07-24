@@ -1,7 +1,7 @@
 // src/components/Categories.tsx
 
 "use client";
-import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CompetitionCard from './CompetitionCard';

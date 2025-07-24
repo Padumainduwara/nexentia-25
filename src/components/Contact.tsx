@@ -9,32 +9,45 @@ gsap.registerPlugin(ScrollTrigger);
 
 // සම්බන්ධීකාරකවරුන්ගේ දත්ත
 const contactDetails = [
-    { name: "Veronika Gaushi", role: "President", phone: "+94 70 538 0667" },
-    { name: "Asisya Perera", role: "V. President", phone: "+94 76 693 5891" },
-    { name: "Dimashi Ayodya", role: "V. President", phone: "+94 71 872 8178" },
-    { name: "Janani Pabasara", role: "Secretary", phone: "+94 77 341 0662" },
+    { name: "Veronika Gaushi", role: "President", phone: "+94705380667" },
+    { name: "Asisya Perera", role: "V. President", phone: "+94766935891" },
+    { name: "Dimashi Ayodya", role: "V. President", phone: "+94718728178" },
+    { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662" },
 ];
 
 // එක් එක් contact card එක සඳහා component එක
 const ContactCard = ({ name, role, phone }: { name: string, role: string, phone: string }) => (
-    <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-lg text-center">
-        <h3 className="text-xl font-bold text-white">{name}</h3>
-        <p className="text-purple-400 uppercase tracking-widest text-sm mt-1">{role}</p>
-        <a 
-            href={`tel:${phone.replace(/\s/g, '')}`} 
-            className="inline-block mt-4 font-sans text-lg text-gray-300 hover:text-white transition-colors duration-300"
-            data-cursor-hover
-        >
-            {phone}
-        </a>
+    <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-lg text-center flex flex-col">
+        <div className="flex-grow">
+            <h3 className="text-xl font-bold text-white">{name}</h3>
+            <p className="text-purple-400 uppercase tracking-widest text-sm mt-1">{role}</p>
+        </div>
+        {/* THIS IS THE FIX: Added separate Call and WhatsApp links */}
+        <div className="mt-4 font-sans text-lg text-gray-300">
+            <span>{phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')}</span>
+            <div className="flex justify-center gap-6 mt-3 text-base">
+                <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover>
+                    Call
+                </a>
+                <a 
+                    href={`https://wa.me/${phone}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-purple-400 transition-colors" 
+                    data-cursor-hover
+                >
+                    WhatsApp
+                </a>
+            </div>
+        </div>
     </div>
 );
+
 
 const Contact = () => {
     const sectionRef = useRef(null);
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Card සඳහා scroll animation එක
             gsap.from(".contact-card", {
                 scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
                 opacity: 0,

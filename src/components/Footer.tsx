@@ -22,7 +22,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <p className="text-sm">
-                        Nexentia, the flagship ICT Day of St. Joseph's Girls' School, is an inter-school event celebrating future tech and digital innovation.
+                        Nexentia, the flagship ICT Day of St. Joseph&apos;s Girls&apos; School, is an inter-school event celebrating future tech and digital innovation.
                     </p>
                 </div>
 
@@ -40,14 +40,14 @@ const Footer = () => {
                 {/* Column 3: Contact Us */}
                 <div>
                     <h3 className="font-orbitron text-lg font-bold text-white mb-4 uppercase">Contact Us</h3>
-                    <p className="text-sm">Josephian ICT Society,<br/>St. Joseph's Girls' School,<br/>Nugegoda.</p>
+                    <p className="text-sm">Josephian ICT Society,<br/>St. Joseph&apos;s Girls&apos; School,<br/>Nugegoda.</p>
                     <a href="mailto:jictsofficial@gmail.com" className="block mt-2 text-sm hover:text-purple-400 transition-colors" data-cursor-hover>jictsofficial@gmail.com</a>
                 </div>
 
                 {/* Column 4: Inquiry */}
                  <div>
                     <h3 className="font-orbitron text-lg font-bold text-white mb-4 uppercase">Looking for Something?</h3>
-                    <p className="text-sm">Feel free to reach out to us for any inquiries or support. We're here to help!</p>
+                    <p className="text-sm">Feel free to reach out to us for any inquiries or support. We&apos;re here to help!</p>
                 </div>
             </div>
             <div className="w-full border-t border-purple-800/40 py-6 text-center">

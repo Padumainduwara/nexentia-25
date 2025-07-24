@@ -937,54 +937,100 @@ const contactDetails = [
     {
         name: "Veronika Gaushi",
         role: "President",
-        phone: "+94 70 538 0667"
+        phone: "+94705380667"
     },
     {
         name: "Asisya Perera",
         role: "V. President",
-        phone: "+94 76 693 5891"
+        phone: "+94766935891"
     },
     {
         name: "Dimashi Ayodya",
         role: "V. President",
-        phone: "+94 71 872 8178"
+        phone: "+94718728178"
     },
     {
         name: "Janani Pabasara",
         role: "Secretary",
-        phone: "+94 77 341 0662"
+        phone: "+94773410662"
     }
 ];
 // එක් එක් contact card එක සඳහා component එක
 const ContactCard = (param)=>{
     let { name, role, phone } = param;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-lg text-center",
+        className: "contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-lg text-center flex flex-col",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                className: "text-xl font-bold text-white",
-                children: name
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex-grow",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                        className: "text-xl font-bold text-white",
+                        children: name
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Contact.tsx",
+                        lineNumber: 22,
+                        columnNumber: 13
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-purple-400 uppercase tracking-widest text-sm mt-1",
+                        children: role
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Contact.tsx",
+                        lineNumber: 23,
+                        columnNumber: 13
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/components/Contact.tsx",
                 lineNumber: 21,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                className: "text-purple-400 uppercase tracking-widest text-sm mt-1",
-                children: role
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-4 font-sans text-lg text-gray-300",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Contact.tsx",
+                        lineNumber: 27,
+                        columnNumber: 13
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex justify-center gap-6 mt-3 text-base",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                href: "tel:".concat(phone),
+                                className: "hover:text-purple-400 transition-colors",
+                                "data-cursor-hover": true,
+                                children: "Call"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Contact.tsx",
+                                lineNumber: 29,
+                                columnNumber: 17
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                href: "https://wa.me/".concat(phone),
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                className: "hover:text-purple-400 transition-colors",
+                                "data-cursor-hover": true,
+                                children: "WhatsApp"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Contact.tsx",
+                                lineNumber: 32,
+                                columnNumber: 17
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Contact.tsx",
+                        lineNumber: 28,
+                        columnNumber: 13
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/components/Contact.tsx",
-                lineNumber: 22,
-                columnNumber: 9
-            }, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                href: "tel:".concat(phone.replace(/\s/g, '')),
-                className: "inline-block mt-4 font-sans text-lg text-gray-300 hover:text-white transition-colors duration-300",
-                "data-cursor-hover": true,
-                children: phone
-            }, void 0, false, {
-                fileName: "[project]/src/components/Contact.tsx",
-                lineNumber: 23,
+                lineNumber: 26,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
@@ -1002,7 +1048,6 @@ const Contact = ()=>{
         "Contact.useLayoutEffect": ()=>{
             const ctx = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].context({
                 "Contact.useLayoutEffect.ctx": ()=>{
-                    // Card සඳහා scroll animation එක
                     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].from(".contact-card", {
                         scrollTrigger: {
                             trigger: sectionRef.current,
@@ -1033,7 +1078,7 @@ const Contact = ()=>{
                     children: "Contact Us"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Contact.tsx",
-                    lineNumber: 53,
+                    lineNumber: 66,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1044,23 +1089,23 @@ const Contact = ()=>{
                             phone: person.phone
                         }, i, false, {
                             fileName: "[project]/src/components/Contact.tsx",
-                            lineNumber: 58,
+                            lineNumber: 71,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)))
                 }, void 0, false, {
                     fileName: "[project]/src/components/Contact.tsx",
-                    lineNumber: 56,
+                    lineNumber: 69,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/Contact.tsx",
-            lineNumber: 52,
+            lineNumber: 65,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/Contact.tsx",
-        lineNumber: 51,
+        lineNumber: 64,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -1285,7 +1330,7 @@ const Footer = ()=>{
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                         fileName: "[project]/src/components/Footer.tsx",
                                         lineNumber: 43,
-                                        columnNumber: 98
+                                        columnNumber: 108
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     "Nugegoda."
                                 ]
@@ -1531,7 +1576,7 @@ function Home() {
                             ref: heroBgRef,
                             className: "absolute top-0 left-0 w-full h-full z-0",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                src: "/hero-background.jpg",
+                                src: "/hero-background.png",
                                 alt: "Futuristic cyberpunk background",
                                 layout: "fill",
                                 objectFit: "cover",

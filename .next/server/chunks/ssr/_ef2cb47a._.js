@@ -131,10 +131,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$gsap$2f$inde
 ;
 ;
 ;
-// Sub-competition card එක
+// Sub-competition card component (remains the same)
 const SubCompetitionCard = ({ name, description })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "subcomp-card border border-purple-800/40 bg-gray-900/40 p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60",
+        className: "subcomp-card border border-purple-800/40 bg-gray-900/40 p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60 flex flex-col",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                 className: "text-2xl font-bold text-purple-300 mb-4",
@@ -208,7 +208,7 @@ function CompetitionPage({ params }) {
                 opacity: 0,
                 duration: 1,
                 ease: 'power3.out'
-            }).from(".subcomp-card", {
+            }).from(".subcomp-card, .no-subcomp-content", {
                 y: 50,
                 opacity: 0,
                 duration: 0.6,
@@ -224,7 +224,7 @@ function CompetitionPage({ params }) {
             children: "Competition not found."
         }, void 0, false, {
             fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-            lineNumber: 39,
+            lineNumber: 44,
             columnNumber: 16
         }, this);
     }
@@ -241,7 +241,7 @@ function CompetitionPage({ params }) {
                             className: "absolute inset-0 bg-gradient-to-b from-purple-900/50 to-transparent blur-3xl -z-10"
                         }, void 0, false, {
                             fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                            lineNumber: 47,
+                            lineNumber: 52,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -253,18 +253,18 @@ function CompetitionPage({ params }) {
                                 objectFit: "contain"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                                lineNumber: 49,
+                                lineNumber: 54,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                            lineNumber: 48,
+                            lineNumber: 53,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                    lineNumber: 46,
+                    lineNumber: 51,
                     columnNumber: 17
                 }, this),
                 competition.subCompetitions.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -274,35 +274,63 @@ function CompetitionPage({ params }) {
                             description: sub.description
                         }, index, false, {
                             fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                            lineNumber: 57,
+                            lineNumber: 62,
                             columnNumber: 29
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                    lineNumber: 55,
+                    lineNumber: 60,
                     columnNumber: 21
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "text-center text-gray-400 font-sans py-16",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-2xl mb-4",
-                            children: "More details coming soon!"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                            lineNumber: 62,
-                            columnNumber: 25
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            children: "Stay tuned for updates on sub-competition categories."
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                            lineNumber: 63,
-                            columnNumber: 25
-                        }, this)
-                    ]
-                }, void 0, true, {
+                    className: "no-subcomp-content text-center text-gray-400 font-sans py-16",
+                    children: competition.slug === 'most-popular' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex justify-center flex-col sm:flex-row gap-4 max-w-md mx-auto",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "flex-1 px-4 py-3 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300",
+                                "data-cursor-hover": true,
+                                children: "R & R"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/competitions/[slug]/page.tsx",
+                                lineNumber: 70,
+                                columnNumber: 33
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "flex-1 px-4 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300",
+                                "data-cursor-hover": true,
+                                children: "Live Leaderboard"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/competitions/[slug]/page.tsx",
+                                lineNumber: 71,
+                                columnNumber: 33
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/competitions/[slug]/page.tsx",
+                        lineNumber: 69,
+                        columnNumber: 29
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-2xl mb-4",
+                                children: "More details coming soon!"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/competitions/[slug]/page.tsx",
+                                lineNumber: 75,
+                                columnNumber: 33
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                children: "Stay tuned for updates on sub-competition categories."
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/competitions/[slug]/page.tsx",
+                                lineNumber: 76,
+                                columnNumber: 33
+                            }, this)
+                        ]
+                    }, void 0, true)
+                }, void 0, false, {
                     fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                    lineNumber: 61,
+                    lineNumber: 66,
                     columnNumber: 21
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -314,23 +342,23 @@ function CompetitionPage({ params }) {
                         children: "← Back to All Categories"
                     }, void 0, false, {
                         fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                        lineNumber: 69,
+                        lineNumber: 84,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-                    lineNumber: 68,
+                    lineNumber: 83,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-            lineNumber: 44,
+            lineNumber: 49,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/competitions/[slug]/page.tsx",
-        lineNumber: 43,
+        lineNumber: 48,
         columnNumber: 9
     }, this);
 }

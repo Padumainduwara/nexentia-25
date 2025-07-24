@@ -17,7 +17,7 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full z-50 font-orbitron"> {/* Font එක යෙදීම */}
       <nav className="container mx-auto flex items-center justify-between p-4 bg-black/40 backdrop-blur-xl border-b border-gray-500/30">
         <div className="text-white font-bold text-2xl tracking-wider">
-          <Link href="/" data-cursor-hover>NEXENTIA '25</Link> {/* data-cursor-hover */}
+          <Link href="/" data-cursor-hover>NEXENTIA &apos;25</Link> {/* data-cursor-hover */}
         </div>
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
