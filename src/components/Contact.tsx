@@ -4,7 +4,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// useHackerText hook bɔra yen
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,7 +30,6 @@ const WhatsAppIcon = () => (
 );
 
 
-// ** KƆLƆSIYA 2: Component props lɔyɔrɔ lɔyɔrɔ la **
 const ContactCard = ({ name, role, phone, hasWhatsApp }: { name: string, role: string, phone: string, hasWhatsApp: boolean }) => (
     <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-2xl text-center flex flex-col transition-all duration-300 hover:border-purple-500 hover:scale-105">
         <div className="flex-grow">

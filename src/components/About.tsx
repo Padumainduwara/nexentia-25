@@ -42,8 +42,9 @@ const About = () => {
         return () => ctx.revert();
     }, []);
 
-    // ** ASKICHAWI: ** Non-breaking spaces (\u00A0) ukax colegio ukan sutipan yapxatatawa ukhamat jan jaljtayañapataki.
-    const aboutText = "Marking a groundbreaking milestone in tech education, Nexentia stands as Sri Lanka's first-ever ICT Day to feature the highest number of competition categories - each uniquely crafted to explore the infinite realms of future technology. Organized by the Josephian ICT Society (JICTS) of St.\u00A0Joseph's\u00A0Girls'\u00A0School,\u00A0Nugegoda, this pioneering event proudly holds the distinction of being the only ICT Day in the nation officially approved by the Ministry of Education. Nexentia is more than an event - it is a prestigious celebration of innovation, creativity, and the limitless potential of digital excellence.";
+    // ** ASKICHAWI: ** Non-breaking spaces (\u00A0) have been added to the school's name to prevent line breaks.
+    // The text has been updated with full stops as requested.
+    const aboutText = "Marking a groundbreaking milestone in tech education, Nexentia stands as Sri Lanka's first-ever ICT Day to feature the highest number of competition categories - each uniquely crafted to explore the infinite realms of future technology. Organized by the Josephian ICT Society (JICTS) of St.\u00A0Joseph's\u00A0Girls'\u00A0School,\u00A0Nugegoda, this pioneering event proudly holds the distinction of being the only ICT Day in the nation officially approved by the Ministry of Education. Nexentia is more than an event - it is a prestigious celebration of innovation, creativity, and the limitless potential of digital excellence";
 
     return (
         <section id="about" ref={sectionRef} className="w-full bg-black py-24 text-white">
@@ -58,9 +59,11 @@ const About = () => {
                 <div className="text-lg md:text-xl leading-relaxed text-gray-300 font-sans">
                     {aboutText.split('. ').map((sentence, index) => (
                         <p key={index} className="about-line overflow-hidden py-1">
-                            {sentence.split(' ').map((word, wordIndex) => (
+                            {sentence && sentence.split(' ').map((word, wordIndex) => (
                                 <span key={wordIndex} className="inline-block">{word}&nbsp;</span>
                             ))}
+                            {/* Add the full stop back if the sentence is not empty */}
+                            {sentence && '.'}
                         </p>
                     ))}
                 </div>

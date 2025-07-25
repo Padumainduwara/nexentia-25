@@ -144,7 +144,7 @@
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     <div className="hero-btn">
                         <a
-                        href="https://forms.gle/m9q51S7M1xndn2B88"
+                        href="https://forms.gle/wenovhykFnK66M7s9"
                         target="_blank"
                         rel="noopener noreferrer"
                         >
