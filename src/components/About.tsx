@@ -4,11 +4,13 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useHackerText } from '@/hooks/useHackerText';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
     const sectionRef = useRef(null);
+    const [title, scrambleTitle] = useHackerText("ABOUT NΕΧΕΝΤΙΑ");
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -40,13 +42,18 @@ const About = () => {
         return () => ctx.revert();
     }, []);
 
-    const aboutText = "Marking a groundbreaking milestone in tech education, Nexentia stands as Sri Lanka's first-ever ICT Day to feature the highest number of competition categories - each uniquely crafted to explore the infinite realms of future technology. Organized by the Josephian ICT Society (JICTS) of St. Joseph's Girls' School, Nugegoda, this pioneering event proudly holds the distinction of being the only ICT Day in the nation officially approved by the Ministry of Education. Nexentia is more than an event - it is a prestigious celebration of innovation, creativity, and the limitless potential of digital excellence.";
+    // ** ASKICHAWI: ** Non-breaking spaces (\u00A0) ukax colegio ukan sutipan yapxatatawa ukhamat jan jaljtayañapataki.
+    const aboutText = "Marking a groundbreaking milestone in tech education, Nexentia stands as Sri Lanka's first-ever ICT Day to feature the highest number of competition categories - each uniquely crafted to explore the infinite realms of future technology. Organized by the Josephian ICT Society (JICTS) of St.\u00A0Joseph's\u00A0Girls'\u00A0School,\u00A0Nugegoda, this pioneering event proudly holds the distinction of being the only ICT Day in the nation officially approved by the Ministry of Education. Nexentia is more than an event - it is a prestigious celebration of innovation, creativity, and the limitless potential of digital excellence.";
 
     return (
         <section id="about" ref={sectionRef} className="w-full bg-black py-24 text-white">
             <div className="container mx-auto px-6 md:px-10 max-w-4xl text-center">
-                <h2 className="about-title text-4xl md:text-5xl font-bold uppercase tracking-wider text-purple-400 mb-12">
-                    ABOUT NΕΧΕΝΤΙΑ
+                <h2 
+                  className="about-title text-4xl md:text-5xl font-bold uppercase tracking-wider text-purple-400 mb-12"
+                  onMouseEnter={scrambleTitle}
+                  data-value="ABOUT NΕΧΕΝΤΙΑ"
+                >
+                  {title}
                 </h2>
                 <div className="text-lg md:text-xl leading-relaxed text-gray-300 font-sans">
                     {aboutText.split('. ').map((sentence, index) => (

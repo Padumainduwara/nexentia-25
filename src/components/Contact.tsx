@@ -15,30 +15,43 @@ const contactDetails = [
     { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662" },
 ];
 
-// එක් එක් contact card එක සඳහා component එක
+// SVG Icon Components
+const PhoneIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+);
+
+const WhatsAppIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+);
+
+
+
 const ContactCard = ({ name, role, phone }: { name: string, role: string, phone: string }) => (
-    <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-lg text-center flex flex-col">
+    <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-2xl text-center flex flex-col transition-all duration-300 hover:border-purple-500 hover:scale-105">
         <div className="flex-grow">
             <h3 className="text-xl font-bold text-white">{name}</h3>
             <p className="text-purple-400 uppercase tracking-widest text-sm mt-1">{role}</p>
+            <p className="mt-4 font-sans text-lg text-gray-300">{phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')}</p>
         </div>
-        {/* THIS IS THE FIX: Added separate Call and WhatsApp links */}
-        <div className="mt-4 font-sans text-lg text-gray-300">
-            <span>{phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')}</span>
-            <div className="flex justify-center gap-6 mt-3 text-base">
-                <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover>
-                    Call
-                </a>
-                <a 
-                    href={`https://wa.me/${phone}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="hover:text-purple-400 transition-colors" 
-                    data-cursor-hover
-                >
-                    WhatsApp
-                </a>
-            </div>
+        {/* Links with Icons */}
+        <div className="flex justify-center gap-8 mt-6 text-gray-400">
+            <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover aria-label={`Call ${name}`}>
+                <PhoneIcon />
+            </a>
+            <a 
+                href={`https://wa.me/${phone.replace(/\s/g, '')}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-purple-400 transition-colors" 
+                data-cursor-hover
+                aria-label={`WhatsApp ${name}`}
+            >
+                <WhatsAppIcon />
+            </a>
         </div>
     </div>
 );
@@ -46,15 +59,23 @@ const ContactCard = ({ name, role, phone }: { name: string, role: string, phone:
 
 const Contact = () => {
     const sectionRef = useRef(null);
+
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.from(".contact-card", {
-                scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-                opacity: 0,
-                y: 100,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: 'power3.out'
+            // ** THE FIX: Animate each card individually **
+            // This is more reliable than a single staggered animation for the whole group.
+            gsap.utils.toArray<HTMLElement>(".contact-card").forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%", // Start animation when 90% of the card is visible
+                        toggleActions: "play none none none",
+                    },
+                    opacity: 0,
+                    y: 100,
+                    duration: 0.8,
+                    ease: 'power3.out'
+                });
             });
         }, sectionRef);
         return () => ctx.revert();
@@ -66,7 +87,7 @@ const Contact = () => {
                 <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-center text-purple-400 mb-16">
                     Contact Us
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {contactDetails.map((person, i) => (
                         <ContactCard key={i} name={person.name} role={person.role} phone={person.phone} />
                     ))}

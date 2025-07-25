@@ -12,7 +12,7 @@
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-d6e2a37b7965f281.js",
       "static/chunks/main-app-ee6fae56f0dda6cb.js",
-      "static/css/93e065b7f662be4f.css",
+      "static/css/aed436af12f8b3eb.css",
       "static/chunks/c15bf2b0-51c91f303884de57.js",
       "static/chunks/847-a5f40dbe6e067d0f.js",
       "static/chunks/88-d62c382a2e605036.js",
@@ -31,7 +31,7 @@
       "static/chunks/88-d62c382a2e605036.js",
       "static/chunks/766-41587ae232ab9347.js",
       "static/chunks/499-bcaf05c9a182fd46.js",
-      "static/chunks/app/page-264a337d6b3fd784.js"
+      "static/chunks/app/page-b5ad745e06d8b863.js"
     ],
     "/competitions/[slug]/page": [
       "static/chunks/webpack-6f73679d5dc67419.js",
@@ -41,7 +41,7 @@
       "static/chunks/c15bf2b0-51c91f303884de57.js",
       "static/chunks/847-a5f40dbe6e067d0f.js",
       "static/chunks/766-41587ae232ab9347.js",
-      "static/chunks/app/competitions/[slug]/page-30abe3a395f04161.js"
+      "static/chunks/app/competitions/[slug]/page-5471e975685d77b7.js"
     ]
   }
 }
