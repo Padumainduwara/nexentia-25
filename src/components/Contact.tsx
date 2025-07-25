@@ -4,15 +4,17 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// useHackerText hook bɔra yen
 
 gsap.registerPlugin(ScrollTrigger);
 
-// සම්බන්ධීකාරකවරුන්ගේ දත්ත
+// ** KƆLƆSIYA 1: 'hasWhatsApp' bɛ datakɔnɔ **
+// Sisan i bɛ se ka jateminɛ kɛ WhatsApp icon bɛ mɔgɔ minnu na.
 const contactDetails = [
-    { name: "Veronika Gaushi", role: "President", phone: "+94705380667" },
-    { name: "Asisya Perera", role: "V. President", phone: "+94766935891" },
-    { name: "Dimashi Ayodya", role: "V. President", phone: "+94718728178" },
-    { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662" },
+    { name: "Veronika Gaushi", role: "President", phone: "+94705380667", hasWhatsApp: true },
+    { name: "Asisya Perera", role: "V. President", phone: "+94766935891", hasWhatsApp: false }, // Asisya tɛ WhatsApp la
+    { name: "Dimashi Ayodya", role: "V. President", phone: "+94718728178", hasWhatsApp: true },
+    { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662", hasWhatsApp: true },
 ];
 
 // SVG Icon Components
@@ -29,29 +31,31 @@ const WhatsAppIcon = () => (
 );
 
 
-
-const ContactCard = ({ name, role, phone }: { name: string, role: string, phone: string }) => (
+// ** KƆLƆSIYA 2: Component props lɔyɔrɔ lɔyɔrɔ la **
+const ContactCard = ({ name, role, phone, hasWhatsApp }: { name: string, role: string, phone: string, hasWhatsApp: boolean }) => (
     <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-2xl text-center flex flex-col transition-all duration-300 hover:border-purple-500 hover:scale-105">
         <div className="flex-grow">
             <h3 className="text-xl font-bold text-white">{name}</h3>
             <p className="text-purple-400 uppercase tracking-widest text-sm mt-1">{role}</p>
             <p className="mt-4 font-sans text-lg text-gray-300">{phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')}</p>
         </div>
-        {/* Links with Icons */}
         <div className="flex justify-center gap-8 mt-6 text-gray-400">
             <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover aria-label={`Call ${name}`}>
                 <PhoneIcon />
             </a>
-            <a 
-                href={`https://wa.me/${phone.replace(/\s/g, '')}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-purple-400 transition-colors" 
-                data-cursor-hover
-                aria-label={`WhatsApp ${name}`}
-            >
-                <WhatsAppIcon />
-            </a>
+            {/* ** KƆLƆSIYA 3: WhatsApp icon bɛ jira cogo min na ** */}
+            {hasWhatsApp && (
+                <a 
+                    href={`https://wa.me/${phone.replace(/\s/g, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-purple-400 transition-colors" 
+                    data-cursor-hover
+                    aria-label={`WhatsApp ${name}`}
+                >
+                    <WhatsAppIcon />
+                </a>
+            )}
         </div>
     </div>
 );
@@ -62,13 +66,11 @@ const Contact = () => {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // ** THE FIX: Animate each card individually **
-            // This is more reliable than a single staggered animation for the whole group.
             gsap.utils.toArray<HTMLElement>(".contact-card").forEach(card => {
                 gsap.from(card, {
                     scrollTrigger: {
                         trigger: card,
-                        start: "top 90%", // Start animation when 90% of the card is visible
+                        start: "top 90%",
                         toggleActions: "play none none none",
                     },
                     opacity: 0,
@@ -84,12 +86,20 @@ const Contact = () => {
     return (
         <section id="contact" ref={sectionRef} className="w-full bg-black py-24">
             <div className="container mx-auto px-6 md:px-10">
-                <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-center text-purple-400 mb-16">
+                <h2 
+                    className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-center text-purple-400 mb-16"
+                >
                     Contact Us
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {contactDetails.map((person, i) => (
-                        <ContactCard key={i} name={person.name} role={person.role} phone={person.phone} />
+                        <ContactCard 
+                            key={i} 
+                            name={person.name} 
+                            role={person.role} 
+                            phone={person.phone}
+                            hasWhatsApp={person.hasWhatsApp} 
+                        />
                     ))}
                 </div>
             </div>

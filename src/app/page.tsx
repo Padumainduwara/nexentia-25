@@ -139,7 +139,7 @@
                     id="hero-p"
                     className="text-sm sm:text-lg md:text-xl font-light mb-8 sm:mb-12 text-gray-300 font-sans"
                     >
-                    BY ST.&nbsp;JOSEPH&apos;S&nbsp;GIRLS&apos;&nbsp;SCHOOL
+                    BY ST.&nbsp;JOSEPH&apos;S&nbsp;GIRLS&apos;&nbsp;SCHOOL NUGEGODA
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     <div className="hero-btn">
