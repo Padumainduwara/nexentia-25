@@ -1,6 +1,7 @@
 // src/components/Countdown.tsx
 "use client";
-import { useEffect, useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react'; // Import useMemo
+import { useEffect, useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,10 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 const TimeCard = ({ value, unit }: { value: number; unit: string }) => {
     return (
         <div className="flex flex-col items-center">
-            <div className="text-4xl sm:text-5xl md:text-7xl font-bold text-purple-400 bg-gray-900/50 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg border border-purple-800/50 min-w-[70px] sm:min-w-[100px] text-center">
+            {/* Adjusted styles for a tighter look */}
+            <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-purple-400 bg-gray-900/50 p-3 sm:p-4 rounded-lg shadow-lg border border-purple-800/50 min-w-[60px] sm:min-w-[80px] text-center">
                 {String(value).padStart(2, '0')}
             </div>
-            <div className="text-xs sm:text-sm md:text-lg uppercase tracking-widest mt-3 text-gray-400">
+            <div className="text-xs sm:text-sm uppercase tracking-widest mt-2 text-gray-400">
                 {unit}
             </div>
         </div>
@@ -20,7 +22,6 @@ const TimeCard = ({ value, unit }: { value: number; unit: string }) => {
 }
 
 const Countdown = () => {
-    // ** THE FIX: Memoize targetDate so it's only created once **
     const targetDate = useMemo(() => new Date('2025-10-02T14:00:00'), []);
 
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -42,13 +43,10 @@ const Countdown = () => {
 
     useEffect(() => {
         setIsClient(true); 
-
         setTimeLeft(calculateTimeLeft());
-
         const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
-
         return () => clearInterval(timer);
     }, [calculateTimeLeft]);
 
@@ -64,15 +62,31 @@ const Countdown = () => {
     }, []);
 
     return (
-        <section id="countdown" ref={sectionRef} className="w-full bg-black py-16 sm:py-20 text-white text-center overflow-hidden">
-            <div className="container mx-auto px-4">
+        <section id="countdown" ref={sectionRef} className="relative w-full bg-black py-24 sm:py-32 text-white text-center overflow-hidden">
+            {/* Background Image */}
+            <Image
+                src="/OIM.png"
+                alt="Countdown Background"
+                fill
+                style={{ objectFit: 'cover' }}
+                className="opacity-80 z-0"
+            />
+            {/* Dark Overlay for readability */}
+            <div className="absolute inset-0 bg-black/60 z-0"></div>
+
+            {/* ** THE FIX: Added gradient overlay for smooth transition ** */}
+            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black to-transparent z-10"></div>
+
+            {/* Content Container with adjusted margins */}
+            <div className="relative z-10 container mx-auto px-4">
                 <h2 className="anim-title text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-wider text-purple-400">
                     OPERATION IN MOTION
                 </h2>
-                <p className="anim-subtitle text-lg sm:text-xl md:text-2xl mt-4 mb-12 text-gray-300">
+                {/* Adjusted margins for subtitle */}
+                <p className="anim-subtitle text-base sm:text-lg md:text-xl mt-3 mb-10 text-gray-300">
                     CLAIM YOUR PLACE NOW!
                 </p>
-                <div className="flex justify-center gap-2 sm:gap-4 md:gap-8">
+                <div className="flex justify-center gap-3 sm:gap-4 md:gap-8">
                     {isClient ? (
                         <>
                             <div className="anim-card"><TimeCard value={timeLeft.days} unit="Days" /></div>
