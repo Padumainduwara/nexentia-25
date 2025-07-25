@@ -50,7 +50,7 @@ const Footer = () => {
                             <Image src="/nexentia-logo.png" alt="Nexentia Logo" fill style={{ objectFit: "contain" }} />
                         </div>
                         <div className="relative h-12 w-12">
-                            <Image src="/sjclogo.jpeg" alt="School Logo" fill style={{ objectFit: "contain" }} />
+                            <Image src="/sjclogo.png" alt="School Logo" fill style={{ objectFit: "contain" }} />
                         </div>
                         <div className="relative h-12 w-14">
                              <Image src="/jicts-logo.png" alt="JICTS Logo" fill style={{ objectFit: "contain" }} />
