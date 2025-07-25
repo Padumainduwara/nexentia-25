@@ -1,15 +1,16 @@
-import * as React from 'react';
-import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Points } from '@react-three/drei';
-import { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+"use client";
 
-type StarsProps = React.JSX.IntrinsicElements['points'];
+import { useRef, useState, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const Stars = forwardRef<THREE.Points, StarsProps>((props, ref) => {
-  const innerRef = useRef<THREE.Points>(null);  // MutableRefObject used here
+gsap.registerPlugin(ScrollTrigger);
 
-  useImperativeHandle(ref, () => innerRef.current!);  // Exposing ref
+function Stars(props: React.JSX.IntrinsicElements["points"]) {
+  const ref = useRef<THREE.Points | null>(null);
 
   const [sphere] = useState(() => {
     const positions = new Float32Array(5000 * 3);
@@ -22,34 +23,38 @@ const Stars = forwardRef<THREE.Points, StarsProps>((props, ref) => {
   });
 
   useFrame((state, delta) => {
-    if (!innerRef.current) return;
+    if (!ref.current) return;
 
-    innerRef.current.rotation.x -= delta / 25;
-    innerRef.current.rotation.y -= delta / 30;
+    ref.current.rotation.x -= delta / 25;
+    ref.current.rotation.y -= delta / 30;
 
     const targetX = state.pointer.y * 0.15;
     const targetY = state.pointer.x * 0.15;
 
-    innerRef.current.rotation.x = THREE.MathUtils.lerp(innerRef.current.rotation.x, targetX, 0.02);
-    innerRef.current.rotation.y = THREE.MathUtils.lerp(innerRef.current.rotation.y, targetY, 0.02);
+    ref.current.rotation.x = THREE.MathUtils.lerp(ref.current.rotation.x, targetX, 0.02);
+    ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, targetY, 0.02);
   });
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
       <Points
-        ref={innerRef} // Assigning the ref properly here
+        ref={ref}
         positions={sphere}
         stride={3}
         frustumCulled={false}
         {...props}
       >
-        {/* PointMaterial component */}
+        <PointMaterial
+          transparent
+          color="#985eff"
+          size={0.005}
+          sizeAttenuation={true}
+          depthWrite={false}
+        />
       </Points>
     </group>
   );
-});
-
-Stars.displayName = 'Stars';
+}
 
 export default function HeroBackground() {
   return (
