@@ -13,18 +13,17 @@ gsap.registerPlugin(ScrollTrigger);
 const filterCategories = ["ALL", "CODINEX", "PIXELYNX", "MECHATRON", "VIRTUEVERSE", "CIPHERX", "ZENTHACK", "QUESTRIX", "MOST POPULAR SOCIETY"];
 
 const Categories = () => {
-    const sectionRef = useRef(null);
-    const gridRef = useRef(null);
-    const [activeFilter, setActiveFilter] = useState("ALL");
-    const [filteredComps, setFilteredComps] = useState(competitionsData);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null); // Clear type added here
+  const [activeFilter, setActiveFilter] = useState("ALL");
+  const [filteredComps, setFilteredComps] = useState(competitionsData);
 
-    // Filter එක වෙනස් වන විට card ටික animate කිරීම
-    useEffect(() => {
-        const grid = gridRef.current;
-        if (!grid) return;
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
 
-        // 1. පවතින card ටික fade out කිරීම
-        gsap.to(grid.children, {
+    // grid.children type-safe cast
+    gsap.to(Array.from(grid.children) as HTMLElement[], {
             opacity: 0,
             scale: 0.9,
             duration: 0.3,
@@ -45,12 +44,14 @@ const Categories = () => {
         const grid = gridRef.current;
         if (!grid || filteredComps.length === 0) return;
         
+        const children = Array.from(grid.children) as HTMLElement[];
         // දත්ත යාවත්කාලීන වූ පසු, අලුත් card ටික දර්ශනය කිරීම
-        gsap.fromTo(grid.children, 
-            { opacity: 0, scale: 0.9, y: 50 },
-            { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: 0.05, delay: 0.1 }
-        );
-    }, [filteredComps]);
+        gsap.fromTo(
+      children,
+      { opacity: 0, scale: 0.9, y: 50 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: 0.05, delay: 0.1 }
+    );
+  }, [filteredComps]);
 
     return (
         <section id="categories" ref={sectionRef} className="w-full bg-black py-24">
