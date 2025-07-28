@@ -4,30 +4,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState, useMemo } from "react"; // Added useMemo
+import { useLayoutEffect, useRef, useState, useMemo, useEffect } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Competition } from "@/data/competitions";
 import RulesModal from "./modals/RulesModal";
 import { rrData, RuleSection } from "@/data/rrData";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface CompetitionPageClientProps {
   competition: Competition;
 }
 
-// Card for standard sub-competitions
 const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string; description: string; onRulesClick: () => void; }) => {
   return (
-    <div className="subcomp-card flex flex-col border border-purple-800/40 bg-gray-900/40 p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
-      <h3 className="text-2xl font-bold text-purple-300 mb-4">{name}</h3>
-      <p className="font-sans text-gray-400 mb-6 flex-grow">{description}</p>
+    <div className="subcomp-card flex flex-col border border-purple-800/40 bg-gray-900/40 p-6 sm:p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
+      <h3 className="text-xl sm:text-2xl font-bold text-purple-300 mb-4">{name}</h3>
+      <p className="font-sans text-sm sm:text-base text-gray-400 mb-6 flex-grow">{description}</p>
       <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-        <button onClick={onRulesClick} className="flex-1 px-4 py-2 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
+        <button onClick={onRulesClick} className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
           R & R
         </button>
-        <button className="flex-1 px-4 py-2 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
+        <button className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
           Registration
         </button>
-        <button className="flex-1 px-4 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300" data-cursor-hover>
+        <button className="flex-1 px-4 py-2 text-sm bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300" data-cursor-hover>
           Submission
         </button>
       </div>
@@ -35,16 +37,45 @@ const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string;
   );
 };
 
-// Main component for the page
 export default function CompetitionPageClient({ competition }: CompetitionPageClientProps) {
   const compRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{title: string, content: RuleSection[], pdfUrl: string} | null>(null);
+  const [modalContent, setModalContent] = useState<{ title: string, content: RuleSection[], pdfUrl: string } | null>(null);
 
-  // ** THE FIX: Find all rules for this competition only once **
+  // --- Integrated Modern Alert Logic ---
+  const [alertState, setAlertState] = useState({ isOpen: false, message: '' });
+  const alertRef = useRef<HTMLDivElement>(null);
+
   const competitionRules = useMemo(() => {
     return rrData.find(r => r.slug === competition.slug);
   }, [competition.slug]);
+  
+  const showAlert = (message: string) => {
+    setAlertState({ isOpen: true, message });
+  };
+
+  useEffect(() => {
+    if (alertState.isOpen) {
+      gsap.fromTo(
+        alertRef.current,
+        { y: 100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }
+      );
+
+      const timer = setTimeout(() => {
+        gsap.to(alertRef.current, {
+          y: 100,
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power3.in',
+          onComplete: () => setAlertState({ isOpen: false, message: '' }),
+        });
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [alertState]);
+  // --- End of Integrated Alert Logic ---
 
   const handleOpenRules = (subCompetitionName: string) => {
     if (competitionRules) {
@@ -53,23 +84,25 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
         setModalContent({
           title: `${competition.title}: ${subCompetitionName}`,
           content: subRules.content,
-          pdfUrl: competitionRules.pdfUrl,
+          pdfUrl: subRules.pdfUrl,
         });
         setIsModalOpen(true);
       } else {
-        alert("Rules & Regulations for this specific event are not yet available.");
+        showAlert("Rules for this event are not yet available.");
       }
     } else {
-      alert("Rules & Regulations for this competition category are not yet available.");
+      showAlert("Rules for this category are not yet available.");
     }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleCloseModal = () => setIsModalOpen(false);
 
+  // Animations have been removed from this hook as requested.
   useLayoutEffect(() => {
-    // ... animations ...
+    const ctx = gsap.context(() => {
+      // GSAP Context is kept for potential future animations and proper cleanup.
+    }, compRef);
+    return () => ctx.revert();
   }, []);
 
   const isMostPopularAward = competition.slug === 'most-popular';
@@ -87,10 +120,10 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
 
           {isMostPopularAward ? (
             <div className="text-center max-w-2xl mx-auto">
-              <p className="anim-fade-in font-sans text-lg text-gray-300 leading-relaxed mb-12">
+              <p className="font-sans text-lg text-gray-300 leading-relaxed mb-12">
                 This special award recognizes the ICT Society that garners the most support from the community.
               </p>
-              <div className="anim-fade-in flex flex-col sm:flex-row gap-6 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <button onClick={() => handleOpenRules('Most Popular School ICT Society')} className="px-8 py-3 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300 text-lg" data-cursor-hover>
                   R & R
                 </button>
@@ -102,16 +135,16 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
           ) : competition.subCompetitions.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {competition.subCompetitions.map((sub, index) => (
-                <SubCompetitionCard 
-                  key={index} 
-                  name={sub.name} 
-                  description={sub.description} 
+                <SubCompetitionCard
+                  key={index}
+                  name={sub.name}
+                  description={sub.description}
                   onRulesClick={() => handleOpenRules(sub.name)}
                 />
               ))}
             </div>
           ) : (
-            <div className="anim-fade-in text-center text-gray-400 font-sans py-16">
+            <div className="text-center text-gray-400 font-sans py-16">
               <p className="text-2xl mb-4">More details coming soon!</p>
             </div>
           )}
@@ -123,9 +156,9 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
           </div>
         </div>
       </div>
-      
-      {modalContent && (
-        <RulesModal 
+
+      {isModalOpen && modalContent && (
+        <RulesModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           title={modalContent.title}
@@ -133,6 +166,17 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
           pdfUrl={modalContent.pdfUrl}
         />
       )}
+
+      {alertState.isOpen && (
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[1000]">
+          <div
+            ref={alertRef}
+            className="bg-gray-900/80 backdrop-blur-md border border-purple-500 text-white font-sans text-center py-3 px-6 rounded-lg shadow-lg"
+          >
+            {alertState.message}
+          </div>
+        </div>
+      )}
     </>
   );
-}
+};
