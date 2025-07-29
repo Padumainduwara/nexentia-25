@@ -7,13 +7,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ** KƆLƆSIYA 1: 'hasWhatsApp' bɛ datakɔnɔ **
-// Sisan i bɛ se ka jateminɛ kɛ WhatsApp icon bɛ mɔgɔ minnu na.
+// දත්ත යාවත්කාලීන කිරීම: hasPhoneCall property එක එකතු කරන ලදී
 const contactDetails = [
-    { name: "Veronika Gaushi", role: "President", phone: "+94705380667", hasWhatsApp: true },
-    { name: "Asisya Perera", role: "V. President", phone: "+94766935891", hasWhatsApp: false }, // Asisya tɛ WhatsApp la
-    { name: "Dimashi Ayodya", role: "V. President", phone: "+94718728178", hasWhatsApp: true },
-    { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662", hasWhatsApp: true },
+    { name: "Veronika Gaushi", role: "President", phone: "+94705380667", hasWhatsApp: true, hasPhoneCall: true },
+    // Asisya Perera සඳහා: WhatsApp පමණක් ඇත, Phone Call නැත
+    { name: "Asisya Perera", role: "V. President", phone: "+94766935891", hasWhatsApp: true, hasPhoneCall: false }, 
+    { name: "Dimashi Ayodya", role: "V. President", phone: "+94718728178", hasWhatsApp: true, hasPhoneCall: true },
+    { name: "Janani Pabasara", role: "Secretary", phone: "+94773410662", hasWhatsApp: true, hasPhoneCall: true },
 ];
 
 // SVG Icon Components
@@ -30,7 +30,8 @@ const WhatsAppIcon = () => (
 );
 
 
-const ContactCard = ({ name, role, phone, hasWhatsApp }: { name: string, role: string, phone: string, hasWhatsApp: boolean }) => (
+// ContactCard component එකට hasPhoneCall prop එක එකතු කිරීම
+const ContactCard = ({ name, role, phone, hasWhatsApp, hasPhoneCall }: { name: string, role: string, phone: string, hasWhatsApp: boolean, hasPhoneCall: boolean }) => (
     <div className="contact-card border border-purple-800/40 bg-gray-900/40 p-6 rounded-2xl text-center flex flex-col transition-all duration-300 hover:border-purple-500 hover:scale-105">
         <div className="flex-grow">
             <h3 className="text-xl font-bold text-white">{name}</h3>
@@ -38,10 +39,14 @@ const ContactCard = ({ name, role, phone, hasWhatsApp }: { name: string, role: s
             <p className="mt-4 font-sans text-lg text-gray-300">{phone.replace(/(\+94)(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4')}</p>
         </div>
         <div className="flex justify-center gap-8 mt-6 text-gray-400">
-            <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover aria-label={`Call ${name}`}>
-                <PhoneIcon />
-            </a>
-            {/* ** KƆLƆSIYA 3: WhatsApp icon bɛ jira cogo min na ** */}
+            {/* Phone icon එක hasPhoneCall true නම් පමණක් පෙන්වීම */}
+            {hasPhoneCall && (
+                <a href={`tel:${phone}`} className="hover:text-purple-400 transition-colors" data-cursor-hover aria-label={`Call ${name}`}>
+                    <PhoneIcon />
+                </a>
+            )}
+            
+            {/* WhatsApp icon එක hasWhatsApp true නම් පමණක් පෙන්වීම */}
             {hasWhatsApp && (
                 <a 
                     href={`https://wa.me/${phone.replace(/\s/g, '')}`} 
@@ -96,7 +101,8 @@ const Contact = () => {
                             name={person.name} 
                             role={person.role} 
                             phone={person.phone}
-                            hasWhatsApp={person.hasWhatsApp} 
+                            hasWhatsApp={person.hasWhatsApp}
+                            hasPhoneCall={person.hasPhoneCall} // නව prop එක pass කිරීම
                         />
                     ))}
                 </div>
