@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Competition } from "@/data/competitions";
 import RulesModal from "./modals/RulesModal";
+import LeaderboardModal from "./modals/LeaderboardModal"; // Leaderboard Modal එක import කිරීම
 import { rrData, RuleSection } from "@/data/rrData";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -39,10 +40,10 @@ const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string;
 
 export default function CompetitionPageClient({ competition }: CompetitionPageClientProps) {
   const compRef = useRef(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+  const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false); // Leaderboard Modal සඳහා state
   const [modalContent, setModalContent] = useState<{ title: string, content: RuleSection[], pdfUrl: string } | null>(null);
 
-  // --- Integrated Modern Alert Logic ---
   const [alertState, setAlertState] = useState({ isOpen: false, message: '' });
   const alertRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +76,6 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
       return () => clearTimeout(timer);
     }
   }, [alertState]);
-  // --- End of Integrated Alert Logic ---
 
   const handleOpenRules = (subCompetitionName: string) => {
     if (competitionRules) {
@@ -86,7 +86,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
           content: subRules.content,
           pdfUrl: subRules.pdfUrl,
         });
-        setIsModalOpen(true);
+        setIsRulesModalOpen(true);
       } else {
         showAlert("Rules for this event are not yet available.");
       }
@@ -95,9 +95,11 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
     }
   };
 
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseRulesModal = () => setIsRulesModalOpen(false);
+  const handleOpenLeaderboard = () => setIsLeaderboardModalOpen(true);
+  const handleCloseLeaderboard = () => setIsLeaderboardModalOpen(false);
 
-  // Animations have been removed from this hook as requested.
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // GSAP Context is kept for potential future animations and proper cleanup.
@@ -127,7 +129,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
                 <button onClick={() => handleOpenRules('Most Popular School ICT Society')} className="px-8 py-3 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300 text-lg" data-cursor-hover>
                   R & R
                 </button>
-                <button className="px-8 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 text-lg" data-cursor-hover>
+                <button onClick={handleOpenLeaderboard} className="px-8 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 text-lg" data-cursor-hover>
                   Live Leaderboard
                 </button>
               </div>
@@ -157,15 +159,20 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
         </div>
       </div>
 
-      {isModalOpen && modalContent && (
+      {isRulesModalOpen && modalContent && (
         <RulesModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
+          isOpen={isRulesModalOpen}
+          onClose={handleCloseRulesModal}
           title={modalContent.title}
           content={modalContent.content}
           pdfUrl={modalContent.pdfUrl}
         />
       )}
+
+      <LeaderboardModal 
+        isOpen={isLeaderboardModalOpen}
+        onClose={handleCloseLeaderboard}
+      />
 
       {alertState.isOpen && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[1000]">
@@ -179,4 +186,4 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
       )}
     </>
   );
-};
+}
