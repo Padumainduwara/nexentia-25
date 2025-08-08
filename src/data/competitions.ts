@@ -105,8 +105,8 @@ export const competitionsData: Competition[] = [
     ],
   },
   {
-    slug: 'zenhack',
-    title: 'ZEN HACK',
+    slug: 'zenthack',
+    title: 'ZENTHACK',
     subtitle: 'Cyber Security & Ethical Hacking',
     logoSrc: '/logos/zenhack.png',
     category: 'ZENTHACK',

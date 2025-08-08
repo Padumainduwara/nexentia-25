@@ -47,10 +47,9 @@ export const rrData: CompetitionRules[] = [
         pdfUrl: '/pdfs/rr-codinex-web.pdf',
         content: [
             { title: 'Task', points: ['Design and develop a Teacher Performance and Development Tracking System. The platform should allow storing teacher information, performance reviews, student feedback, training history, and career milestones.'] },
-            { title: 'Eligibility', points: ['Students from Grade 9-13 can participate.', 'Solo or duet entries are allowed.'] },
+            { title: 'Eligibility', points: ['To All Students with no Age or Grade Restrictions.', 'Only For Individuals Not for Teams.'] },
             { title: 'Instructions', points: ['The website must be original and fully functional.', 'You can use any modern web technologies (React, Vue, Angular, Node.js, etc.).', 'Backend functionalities (e.g., user authentication, database integration) will significantly boost your score.', 'The design must be responsive and user-friendly.'] },
             { title: 'Submission', points: ['Submit a link to your public GitHub repository containing all source code.', 'A hosted link to the live web app (e.g., on Netlify, Vercel) must be provided.'] },
-            { title: 'Judging Criteria', points: ['Technical complexity and implementation.', 'UI/UX design and responsiveness.', 'Functionality and completeness of features.', 'Code quality and organization.'] },
         ]
       }
     ],
@@ -74,7 +73,7 @@ export const rrData: CompetitionRules[] = [
             subCompetitionName: 'Video Editing',
             pdfUrl: '/pdfs/rr-pixelynx-video.pdf',
             content: [
-                { title: 'Task', points: ["Submit one video on one of these topics:", "1. Our School, Our Story (Max 5 mins)", "2. Gadget Commercial Parody (30s - 2 mins)", "3. Behind the Scenes of ICT Day (1-3 mins)"] },
+                { title: 'Task', points: ["Submit one video on one of these topics:", "1. School in the year 2050 (Max 5 mins)", "2. Gadget Commercial Parody (30s - 2 mins)", "3. Glitched Reality (1-3 mins)"] },
                 { title: 'Eligibility', points: ['Open for any category, Grades 10-13.', 'Team-based (1 to 4 students).'] },
                 { title: 'Instructions', points: ['AI-generated content is strictly prohibited.', 'All content must be original or royalty-free.', 'Capture at least 3 screenshots of your editing timeline.', 'Landscape format, minimum 720p resolution.'] },
                 { title: 'Submission', points: ['Submit video in .mp4 or .mov format.', 'Include a PDF with a short description (max 150 words) and screenshots.', 'Folder name: "VIDEO_SCHOOLNAME_YOURNAME"'] },
@@ -181,8 +180,8 @@ export const rrData: CompetitionRules[] = [
     ],
   },
   {
-    slug: 'zenhack',
-    title: 'ZenHack Rules & Regulations',
+    slug: 'zenthack',
+    title: 'ZenThack Rules & Regulations',
     rules: [
       {
         subCompetitionName: 'Cyber Security and Ethical Hacking Quiz',
