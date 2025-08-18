@@ -123,13 +123,13 @@ const Footer = () => {
                 <p className="text-xs text-gray-500 mt-2">
                     Designed & Developed by{' '}
                     <a 
-                        href="https://padumainduwara.me" 
+                        href="https://axioralabs.com" 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="hover:text-purple-400 transition-colors font-semibold"
                         data-cursor-hover
                     >
-                        Paduma Induwara
+                        Axiora Labs
                     </a>
                 </p>
             </div>
