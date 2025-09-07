@@ -133,13 +133,13 @@
                     id="hero-h1"
                     className="text-base sm:text-xl md:text-2xl font-bold tracking-wider uppercase mb-2 sm:mb-3 text-gray-200 px-2"
                     >
-                    FIRST EVER MINISTRY OF EDUCATION RECOGNIZED ICT DAY IN SRI LANKA
+                    BY ST.&nbsp;JOSEPH&apos;S&nbsp;GIRLS&apos;&nbsp;SCHOOL NUGEGODA
                     </h1>
                     <p
                     id="hero-p"
                     className="text-sm sm:text-lg md:text-xl font-light mb-8 sm:mb-12 text-gray-300 font-sans"
                     >
-                    BY ST.&nbsp;JOSEPH&apos;S&nbsp;GIRLS&apos;&nbsp;SCHOOL NUGEGODA
+                    {/* ** FIRST EVER MINISTRY OF EDUCATION RECOGNIZED ICT DAY IN SRI LANKA ** */}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     <div className="hero-btn">
