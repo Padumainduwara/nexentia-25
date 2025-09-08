@@ -11,5 +11,5 @@ export const registrationLinks: RegistrationLinks = {
   zenthack: "https://forms.gle/CsAcgk4EXHgCMnc76",
   cipher: "https://forms.gle/Fs5jMTNwa8FEYeew8", // 'cipherx' slug එක 'cipher' ලෙස data file එකේ ඇත
   questrix: "https://forms.gle/NtzhgBvyJJZdZ2EFA",
-  "most-popular": "https://forms.gle/vUVKmdZyVASJyxkL7", // 'most-popular-school-ict-society' slug එක 'most-popular' ලෙස ඇත
+  "most-popular": "https://forms.gle/vUVKmdZyVASJyxkL7", 
 };

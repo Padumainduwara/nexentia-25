@@ -9,8 +9,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Competition } from "@/data/competitions";
 import RulesModal from "./modals/RulesModal";
-import LeaderboardModal from "./modals/LeaderboardModal"; // Leaderboard Modal එක import කිරීම
+import LeaderboardModal from "./modals/LeaderboardModal";
 import { rrData, RuleSection } from "@/data/rrData";
+import { registrationLinks } from "@/data/registrationLinks";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,7 +19,8 @@ interface CompetitionPageClientProps {
   competition: Competition;
 }
 
-const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string; description: string; onRulesClick: () => void; }) => {
+
+const SubCompetitionCard = ({ name, description, onRulesClick, registrationUrl }: { name: string; description: string; onRulesClick: () => void; registrationUrl: string; }) => {
   return (
     <div className="subcomp-card flex flex-col border border-purple-800/40 bg-gray-900/40 p-6 sm:p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
       <h3 className="text-xl sm:text-2xl font-bold text-purple-300 mb-4">{name}</h3>
@@ -27,9 +29,16 @@ const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string;
         <button onClick={onRulesClick} className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
           R & R
         </button>
-        <button className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
+        
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 px-4 py-2 text-sm text-center bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300"
+          data-cursor-hover
+        >
           Registration
-        </button>
+        </a>
         <button className="flex-1 px-4 py-2 text-sm bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300" data-cursor-hover>
           Submission
         </button>
@@ -41,7 +50,7 @@ const SubCompetitionCard = ({ name, description, onRulesClick }: { name: string;
 export default function CompetitionPageClient({ competition }: CompetitionPageClientProps) {
   const compRef = useRef(null);
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
-  const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false); // Leaderboard Modal සඳහා state
+  const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ title: string, content: RuleSection[], pdfUrl: string } | null>(null);
 
   const [alertState, setAlertState] = useState({ isOpen: false, message: '' });
@@ -50,7 +59,10 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
   const competitionRules = useMemo(() => {
     return rrData.find(r => r.slug === competition.slug);
   }, [competition.slug]);
+
   
+  const registrationLinkForCategory = registrationLinks[competition.slug] || "#";
+
   const showAlert = (message: string) => {
     setAlertState({ isOpen: true, message });
   };
@@ -142,6 +154,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
                   name={sub.name}
                   description={sub.description}
                   onRulesClick={() => handleOpenRules(sub.name)}
+                  registrationUrl={registrationLinkForCategory} 
                 />
               ))}
             </div>
