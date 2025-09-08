@@ -5,7 +5,7 @@ interface RegistrationLinks {
 
 export const registrationLinks: RegistrationLinks = {
   codinex: "https://forms.gle/1iKzJYaRqFvUWpNe7",
-  pixelynx: "https://forms.gle/fcFr66zUTgXoRGEC6",
+  pixelynx: "https://forms.gle/ReDdaauJKEyUnVkK8",
   mechatron: "https://forms.gle/eecqBavqqqrx6Rzv5",
   virtueverse: "https://forms.gle/1hdh7wDS2WW37Vzr9",
   zenthack: "https://forms.gle/CsAcgk4EXHgCMnc76",
