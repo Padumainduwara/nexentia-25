@@ -239,8 +239,8 @@ export const rrData: CompetitionRules[] = [
         pdfUrl: '/pdfs/rr-questrix-treasurehunt.pdf',
         content: [
           { title: 'Eligibility', points: ['Students from Grade 9-13 can participate.', 'This is for teams of four, not individuals.'] },
-          { title: 'Instructions', points: ['The competition will be held physically.', 'Teams will be given a sequence of tech-related tasks and clues.', 'The first team to find the "treasure" location wins.', 'Tasks may include logic puzzles, QR codes, decoding, etc.'] },
-          { title: 'Scoring', points: ['The winning team is the one that completes all tasks and reaches the final location first.', 'Ranking is based on time taken and number of correctly completed clues.'] },
+          { title: 'Instructions', points: ['The competition will be held Online.', 'Teams will be given a sequence of tech-related tasks and clues.', 'The first team to find the "treasure" wins.', 'Tasks may include logic puzzles, QR codes, decoding, etc.'] },
+          { title: 'Scoring', points: ['The winning team is the one that completes all tasks and reaches the treasure first.', 'Ranking is based on time taken and number of correctly completed clues.'] },
         ],
       },
     ],
