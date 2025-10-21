@@ -7,11 +7,12 @@ import Link from "next/link";
 import { useLayoutEffect, useRef, useState, useMemo, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Competition } from "@/data/competitions";
+import { Competition, SubCompetition } from "@/data/competitions"; // SubCompetition import කරන්න
 import RulesModal from "./modals/RulesModal";
 import LeaderboardModal from "./modals/LeaderboardModal";
 import { rrData, RuleSection } from "@/data/rrData";
 import { registrationLinks } from "@/data/registrationLinks";
+import { submissionLinks } from "@/data/submissionLinks"; // අලුතෙන් import කිරීම
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,17 +20,34 @@ interface CompetitionPageClientProps {
   competition: Competition;
 }
 
-
-const SubCompetitionCard = ({ name, description, onRulesClick, registrationUrl }: { name: string; description: string; onRulesClick: () => void; registrationUrl: string; }) => {
+// SubCompetitionCard Component එකට submissionUrl prop එක එකතු කිරීම
+const SubCompetitionCard = ({
+  name,
+  description,
+  onRulesClick,
+  registrationUrl,
+  submissionUrl // අලුත් prop එක
+}: {
+  name: string;
+  description: string;
+  onRulesClick: () => void;
+  registrationUrl: string;
+  submissionUrl?: string; // Optional කරා
+}) => {
   return (
     <div className="subcomp-card flex flex-col border border-purple-800/40 bg-gray-900/40 p-6 sm:p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
       <h3 className="text-xl sm:text-2xl font-bold text-purple-300 mb-4">{name}</h3>
       <p className="font-sans text-sm sm:text-base text-gray-400 mb-6 flex-grow">{description}</p>
       <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-        <button onClick={onRulesClick} className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover>
+        {/* Rules Button */}
+        <button
+          onClick={onRulesClick}
+          className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover
+        >
           R & R
         </button>
-        
+
+        {/* Registration Link */}
         <a
           href={registrationUrl}
           target="_blank"
@@ -39,9 +57,29 @@ const SubCompetitionCard = ({ name, description, onRulesClick, registrationUrl }
         >
           Registration
         </a>
-        <button className="flex-1 px-4 py-2 text-sm bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300" data-cursor-hover>
-          Submission
-        </button>
+
+        {/* --- Submission Button Logic --- */}
+        {submissionUrl ? (
+          // URL එකක් තියෙනවා නම් Link එකක් විදියට පෙන්වන්න
+          <a
+            href={submissionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 px-4 py-2 text-sm text-center bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300"
+            data-cursor-hover
+          >
+            Submission
+          </a>
+        ) : (
+          // URL එකක් නැත්නම් Disable කරපු Button එකක් පෙන්වන්න
+          <button
+            className="flex-1 px-4 py-2 text-sm bg-gray-600 text-gray-400 font-semibold rounded-lg cursor-not-allowed opacity-50"
+            disabled
+            data-cursor-hover // Optional: hover effect එක තියන්නත් පුළුවන්, අයින් කරන්නත් පුළුවන්
+          >
+            Submission
+          </button>
+        )}
       </div>
     </div>
   );
@@ -60,7 +98,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
     return rrData.find(r => r.slug === competition.slug);
   }, [competition.slug]);
 
-  
+
   const registrationLinkForCategory = registrationLinks[competition.slug] || "#";
 
   const showAlert = (message: string) => {
@@ -119,6 +157,11 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
     return () => ctx.revert();
   }, []);
 
+  // Submission key එක හදන function එක (අවශ්‍ය නම් වෙනම utils file එකකට දාන්නත් පුළුවන්)
+  const generateSubmissionKey = (subCompName: string): string => {
+    return `${competition.slug}-${subCompName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')}`;
+  };
+
   const isMostPopularAward = competition.slug === 'most-popular';
 
   return (
@@ -148,15 +191,22 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
             </div>
           ) : competition.subCompetitions.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {competition.subCompetitions.map((sub, index) => (
-                <SubCompetitionCard
-                  key={index}
-                  name={sub.name}
-                  description={sub.description}
-                  onRulesClick={() => handleOpenRules(sub.name)}
-                  registrationUrl={registrationLinkForCategory} 
-                />
-              ))}
+              {competition.subCompetitions.map((sub: SubCompetition, index: number) => { // Type එක specify කරන්න
+                // Submission URL එක හොයාගන්න
+                const subKey = generateSubmissionKey(sub.name);
+                const currentSubmissionUrl = submissionLinks[subKey]; // URL එක හෝ undefined
+
+                return (
+                  <SubCompetitionCard
+                    key={index}
+                    name={sub.name}
+                    description={sub.description}
+                    onRulesClick={() => handleOpenRules(sub.name)}
+                    registrationUrl={registrationLinkForCategory} // Registration link එක එහෙමමයි
+                    submissionUrl={currentSubmissionUrl} // Submission URL එක pass කරන්න
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="text-center text-gray-400 font-sans py-16">
@@ -182,7 +232,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
         />
       )}
 
-      <LeaderboardModal 
+      <LeaderboardModal
         isOpen={isLeaderboardModalOpen}
         onClose={handleCloseLeaderboard}
       />
