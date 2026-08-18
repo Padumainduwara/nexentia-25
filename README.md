@@ -1,4 +1,4 @@
-# Nexentia -25 | ICT Competition Platform
+# Nexentia -26 | ICT Competition Platform
 
 This is a web application built with Next.js and TypeScript for an ICT competition called "Nexentia", organized by the ICT Society of St. Joseph's College, Colombo 10. The platform provides information about various competitions, rules, leaderboards, and contact details.
 

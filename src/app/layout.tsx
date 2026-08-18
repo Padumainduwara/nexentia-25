@@ -16,8 +16,8 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "NEXENTIA '25",
-  description: "The official website for NEXENTIA '25 by JICTS.",
+  title: "NEXENTIA '26",
+  description: "The official website for NEXENTIA '26 by JICTS.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {

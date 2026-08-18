@@ -122,7 +122,7 @@
                     >
                     <Image
                         src="/nexentia-logo.png"
-                        alt="Nexentia '25 Logo"
+                        alt="Nexentia '26 Logo"
                         width={1500}
                         height={300}
                         priority
@@ -144,7 +144,7 @@
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     <div className="hero-btn">
                         <a
-                        href="https://forms.gle/wenovhykFnK66M7s9"
+                        href="https://forms.gle/14pBtiWezMZeCW8q9"
                         target="_blank"
                         rel="noopener noreferrer"
                         >

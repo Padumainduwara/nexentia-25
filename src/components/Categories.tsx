@@ -10,7 +10,17 @@ import { useHackerText } from '@/hooks/useHackerText'; // Import the new hook
 
 gsap.registerPlugin(ScrollTrigger);
 
-const filterCategories = ["ALL", "CODINEX", "PIXELYNX", "MECHATRON", "VIRTUEVERSE", "CIPHERX", "ZENTHACK", "QUESTRIX", "MOST POPULAR SOCIETY"];
+const filterCategories = [
+  "ALL", 
+  "CODINEX", 
+  "NEXTRON", 
+  "PIXELYNX", 
+  "CIPHERX", 
+  "VOICESNX", 
+  "VISUALNX", 
+  "FRAMENX", 
+  "MOST POPULAR SOCIETY"
+];
 
 const Categories = () => {
   const sectionRef = useRef<HTMLElement | null>(null);

@@ -1,18 +1,16 @@
 // src/components/CompetitionPageClient.tsx
 
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState, useMemo, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Competition, SubCompetition } from "@/data/competitions"; // SubCompetition import කරන්න
-import RulesModal from "./modals/RulesModal";
+
+import { Competition } from "@/data/competitions";
 import LeaderboardModal from "./modals/LeaderboardModal";
-import { rrData, RuleSection } from "@/data/rrData";
+import { rrData } from "@/data/rrData";
 import { registrationLinks } from "@/data/registrationLinks";
-import { submissionLinks } from "@/data/submissionLinks"; // අලුතෙන් import කිරීම
+import { submissionLinks } from "@/data/submissionLinks";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,77 +18,10 @@ interface CompetitionPageClientProps {
   competition: Competition;
 }
 
-// SubCompetitionCard Component එකට submissionUrl prop එක එකතු කිරීම
-const SubCompetitionCard = ({
-  name,
-  description,
-  onRulesClick,
-  registrationUrl,
-  submissionUrl // අලුත් prop එක
-}: {
-  name: string;
-  description: string;
-  onRulesClick: () => void;
-  registrationUrl: string;
-  submissionUrl?: string; // Optional කරා
-}) => {
-  return (
-    <div className="subcomp-card flex flex-col border border-purple-800/40 bg-gray-900/40 p-6 sm:p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-purple-500 hover:bg-gray-900/60">
-      <h3 className="text-xl sm:text-2xl font-bold text-purple-300 mb-4">{name}</h3>
-      <p className="font-sans text-sm sm:text-base text-gray-400 mb-6 flex-grow">{description}</p>
-      <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-        {/* Rules Button */}
-        <button
-          onClick={onRulesClick}
-          className="flex-1 px-4 py-2 text-sm bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300" data-cursor-hover
-        >
-          R & R
-        </button>
-
-        {/* Registration Link */}
-        <a
-          href={registrationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 px-4 py-2 text-sm text-center bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300"
-          data-cursor-hover
-        >
-          Registration
-        </a>
-
-        {/* --- Submission Button Logic --- */}
-        {submissionUrl ? (
-          // URL එකක් තියෙනවා නම් Link එකක් විදියට පෙන්වන්න
-          <a
-            href={submissionUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 px-4 py-2 text-sm text-center bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300"
-            data-cursor-hover
-          >
-            Submission
-          </a>
-        ) : (
-          // URL එකක් නැත්නම් Disable කරපු Button එකක් පෙන්වන්න
-          <button
-            className="flex-1 px-4 py-2 text-sm bg-gray-600 text-gray-400 font-semibold rounded-lg cursor-not-allowed opacity-50"
-            disabled
-            data-cursor-hover // Optional: hover effect එක තියන්නත් පුළුවන්, අයින් කරන්නත් පුළුවන්
-          >
-            Submission
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
-
 export default function CompetitionPageClient({ competition }: CompetitionPageClientProps) {
   const compRef = useRef(null);
-  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+  const rulesContainerRef = useRef(null);
   const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{ title: string, content: RuleSection[], pdfUrl: string } | null>(null);
-
   const [alertState, setAlertState] = useState({ isOpen: false, message: '' });
   const alertRef = useRef<HTMLDivElement>(null);
 
@@ -98,12 +29,7 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
     return rrData.find(r => r.slug === competition.slug);
   }, [competition.slug]);
 
-
   const registrationLinkForCategory = registrationLinks[competition.slug] || "#";
-
-  const showAlert = (message: string) => {
-    setAlertState({ isOpen: true, message });
-  };
 
   useEffect(() => {
     if (alertState.isOpen) {
@@ -112,7 +38,6 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
         { y: 100, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }
       );
-
       const timer = setTimeout(() => {
         gsap.to(alertRef.current, {
           y: 100,
@@ -122,119 +47,186 @@ export default function CompetitionPageClient({ competition }: CompetitionPageCl
           onComplete: () => setAlertState({ isOpen: false, message: '' }),
         });
       }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [alertState]);
 
-  const handleOpenRules = (subCompetitionName: string) => {
-    if (competitionRules) {
-      const subRules = competitionRules.rules.find(sr => sr.subCompetitionName === subCompetitionName);
-      if (subRules && subRules.content) {
-        setModalContent({
-          title: `${competition.title}: ${subCompetitionName}`,
-          content: subRules.content,
-          pdfUrl: subRules.pdfUrl,
-        });
-        setIsRulesModalOpen(true);
-      } else {
-        showAlert("Rules for this event are not yet available.");
-      }
-    } else {
-      showAlert("Rules for this category are not yet available.");
-    }
-  };
-
-  const handleCloseRulesModal = () => setIsRulesModalOpen(false);
-  const handleOpenLeaderboard = () => setIsLeaderboardModalOpen(true);
-  const handleCloseLeaderboard = () => setIsLeaderboardModalOpen(false);
-
-
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // GSAP Context is kept for potential future animations and proper cleanup.
+      // Animate header elements
+      gsap.from(".comp-header", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 });
+      
+      // Animate rules cards on scroll
+      if (rulesContainerRef.current) {
+        gsap.from(".rule-card", {
+          scrollTrigger: {
+            trigger: rulesContainerRef.current,
+            start: "top 85%",
+          },
+          y: 40,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power3.out"
+        });
+      }
     }, compRef);
     return () => ctx.revert();
-  }, []);
+  }, [competition.slug]);
 
-  // Submission key එක හදන function එක (අවශ්‍ය නම් වෙනම utils file එකකට දාන්නත් පුළුවන්)
   const generateSubmissionKey = (subCompName: string): string => {
     return `${competition.slug}-${subCompName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')}`;
   };
 
   const isMostPopularAward = competition.slug === 'most-popular';
+  
+  // Since there is only 1 sub-competition for each (or 0 for most-popular)
+  const subComp = competition.subCompetitions[0];
+  const subKey = subComp ? generateSubmissionKey(subComp.name) : '';
+  const currentSubmissionUrl = subComp ? submissionLinks[subKey] : undefined;
+  
+  const rulesToDisplay = isMostPopularAward 
+    ? competitionRules?.rules.find(r => r.subCompetitionName === 'Most Popular School ICT Society')
+    : subComp 
+      ? competitionRules?.rules.find(r => r.subCompetitionName === subComp.name)
+      : null;
 
   return (
     <>
       <div ref={compRef} className="w-full bg-black font-orbitron pt-32 pb-16 min-h-screen overflow-hidden">
-        <div className="container mx-auto px-6 md:px-10">
-          <div className="comp-hero-logo text-center mb-16 relative flex justify-center items-center h-48">
-            <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-transparent blur-3xl -z-10"></div>
-            <div className="w-full max-w-lg h-36 relative">
-              <Image src={competition.logoSrc} alt={`${competition.title} logo`} fill style={{ objectFit: "contain" }} priority />
+        <div className="container mx-auto px-6 md:px-10 max-w-5xl">
+          
+          {/* Cyberpunk Style Header */}
+          <div className="comp-header text-center mb-10 relative flex justify-center items-center h-40 md:h-48">
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-900/20 to-transparent blur-3xl -z-10"></div>
+            <div className="relative inline-block border-l-2 border-b-2 border-cyan-500 pb-2 pl-4 pr-4">
+               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-cyan-400 tracking-widest uppercase">
+                 {competition.title}<span className="text-cyan-600">{"//."}</span>
+               </h1>
             </div>
           </div>
 
-          {isMostPopularAward ? (
-            <div className="text-center max-w-2xl mx-auto">
-              <p className="font-sans text-lg text-gray-300 leading-relaxed mb-12">
-                This special award recognizes the ICT Society that garners the most support from the community.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <button onClick={() => handleOpenRules('Most Popular School ICT Society')} className="px-8 py-3 bg-transparent border-2 border-purple-500 text-purple-500 font-semibold rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300 text-lg" data-cursor-hover>
-                  R & R
-                </button>
-                <button onClick={handleOpenLeaderboard} className="px-8 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 text-lg" data-cursor-hover>
+          <div className="comp-header text-center mb-12">
+             <h2 className="text-xl md:text-3xl text-purple-400 font-bold mb-4">{competition.subtitle}</h2>
+             {subComp && (
+               <p className="text-gray-300 font-sans text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+                 {subComp.description}
+               </p>
+             )}
+             {isMostPopularAward && (
+               <p className="text-gray-300 font-sans text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+                 This special award recognizes the ICT Society that garners the most support from the community.
+               </p>
+             )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="comp-header flex flex-wrap justify-center gap-4 mb-20">
+             <a
+                href={registrationLinkForCategory}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] transition-all duration-300"
+                data-cursor-hover
+              >
+                Register Now
+              </a>
+              
+              {!isMostPopularAward && (
+                currentSubmissionUrl ? (
+                  <a
+                    href={currentSubmissionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-cyan-600 text-white font-bold rounded-lg hover:bg-cyan-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] transition-all duration-300"
+                    data-cursor-hover
+                  >
+                    Submit Project
+                  </a>
+                ) : (
+                  <button
+                    className="px-6 py-3 bg-[#2a2a35] text-gray-500 font-bold rounded-lg cursor-not-allowed border border-gray-700"
+                    disabled
+                  >
+                    Submissions Closed
+                  </button>
+                )
+              )}
+
+              {isMostPopularAward && (
+                <button 
+                  onClick={() => setIsLeaderboardModalOpen(true)} 
+                  className="px-6 py-3 bg-cyan-600 text-white font-bold rounded-lg hover:bg-cyan-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] transition-all duration-300" 
+                  data-cursor-hover
+                >
                   Live Leaderboard
                 </button>
-              </div>
-            </div>
-          ) : competition.subCompetitions.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {competition.subCompetitions.map((sub: SubCompetition, index: number) => { // Type එක specify කරන්න
-                // Submission URL එක හොයාගන්න
-                const subKey = generateSubmissionKey(sub.name);
-                const currentSubmissionUrl = submissionLinks[subKey]; // URL එක හෝ undefined
+              )}
 
-                return (
-                  <SubCompetitionCard
-                    key={index}
-                    name={sub.name}
-                    description={sub.description}
-                    onRulesClick={() => handleOpenRules(sub.name)}
-                    registrationUrl={registrationLinkForCategory} // Registration link එක එහෙමමයි
-                    submissionUrl={currentSubmissionUrl} // Submission URL එක pass කරන්න
-                  />
-                );
-              })}
+              {/* Download PDF Button Added Here */}
+              {rulesToDisplay?.pdfUrl && (
+                <a
+                  href={rulesToDisplay.pdfUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-transparent border-2 border-purple-500 text-purple-400 font-bold rounded-lg hover:bg-purple-500/10 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-300"
+                  data-cursor-hover
+                >
+                  Download PDF
+                </a>
+              )}
+          </div>
+
+          {/* Inline Rules & Regulations */}
+          <div ref={rulesContainerRef} className="mt-16 relative">
+            <div className="flex items-center gap-4 mb-10">
+               <div className="h-px bg-gradient-to-r from-transparent to-purple-500 flex-1"></div>
+               <h3 className="text-2xl md:text-4xl font-bold text-white uppercase tracking-wider">
+                 Rules <span className="text-purple-500">&</span> Regulations
+               </h3>
+               <div className="h-px bg-gradient-to-l from-transparent to-purple-500 flex-1"></div>
             </div>
-          ) : (
-            <div className="text-center text-gray-400 font-sans py-16">
-              <p className="text-2xl mb-4">More details coming soon!</p>
-            </div>
-          )}
+
+            {rulesToDisplay && rulesToDisplay.content.length > 0 ? (
+              <div className="flex flex-col gap-6">
+                {rulesToDisplay.content.map((section, index) => (
+                  <div key={index} className="rule-card relative p-6 md:p-8 bg-[#0a0a0f] border border-purple-500/20 rounded-2xl shadow-lg hover:border-purple-500/50 transition-colors duration-300">
+                    {/* Decorative Dot */}
+                    <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_8px_#22d3ee]"></div>
+                    
+                    <h4 className="text-xl font-bold text-cyan-300 mb-4 pl-4">{section.title}</h4>
+                    <ul className="space-y-3 font-sans text-gray-400">
+                      {section.points.map((point, pIndex) => (
+                        <li key={pIndex} className="flex items-start">
+                          <span className="text-purple-500 mr-3 mt-1 opacity-80">▹</span>
+                          <span className="leading-relaxed text-sm md:text-base">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-gray-500 font-sans py-12 bg-[#0a0a0f] border border-gray-800 rounded-2xl">
+                <p className="text-xl mb-2">Rules & Regulations will be updated soon.</p>
+                <p className="text-sm">Please check back later.</p>
+              </div>
+            )}
+          </div>
 
           <div className="text-center mt-24">
-            <Link href="/#categories" className="inline-block text-purple-400 border border-purple-400 px-8 py-3 rounded-lg hover:bg-purple-400 hover:text-black transition-colors duration-300" data-cursor-hover>
-              &larr; Back to All Categories
+            <Link href="/#categories" className="inline-block text-gray-400 border border-gray-600 px-8 py-3 rounded-lg hover:border-purple-400 hover:text-purple-400 transition-colors duration-300" data-cursor-hover>
+              &larr; Back to Categories
             </Link>
           </div>
+
         </div>
       </div>
 
-      {isRulesModalOpen && modalContent && (
-        <RulesModal
-          isOpen={isRulesModalOpen}
-          onClose={handleCloseRulesModal}
-          title={modalContent.title}
-          content={modalContent.content}
-          pdfUrl={modalContent.pdfUrl}
-        />
-      )}
-
       <LeaderboardModal
         isOpen={isLeaderboardModalOpen}
-        onClose={handleCloseLeaderboard}
+        onClose={() => setIsLeaderboardModalOpen(false)}
       />
 
       {alertState.isOpen && (
